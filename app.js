@@ -36,8 +36,8 @@ var server = http.createServer(app);
 //
 // serialport
 //
-// var portName = '/dev/tty.usbmodemfa141';
-var portName = '/dev/tty.usbmodemfd131';
+var portName = '/dev/tty.usbmodemfa141';
+// var portName = '/dev/tty.usbmodemfd131';
 var sp = new serialport.SerialPort(portName, {
     baudRate: 9600
     // , dataBits: 8
@@ -50,9 +50,9 @@ var sp = new serialport.SerialPort(portName, {
 sp.on("open", function () {
     console.log('open');
 
-    setTimeout(function() {
-        sp.write("you", function(err, results) {});
-    }, 1000);
+    sp.on('data', function(data) {
+        console.log('data received: ' + data);
+    });
 });
 
 sp.on('error', function(err) {
@@ -68,14 +68,11 @@ io.sockets.on("connection", function(socket) {
     console.log('socket connected');
 
     socket.on('mode change', function(_mode){
-        var mode = _mode;
-        console.log('mode changed : ', mode);
-
-        setTimeout(function() {
-            sp.write("mc"+mode, function(err, results) {
-                if(err) console.log(err);
-            });
-        }, 1000);
+        var mode = 'mc' + String(_mode);
+        console.log('mode changed : ', _mode);
+        sp.write(mode, function(err, results) {
+            if(err) console.log(err);
+        });
     });
 });
 
