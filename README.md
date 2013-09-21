@@ -2,7 +2,6 @@ footoff_october
 ===========
 
 ##目次
-<!-- MarkdownTOC -->
 - 環境構築
 	- Xcode
 	- node.js
@@ -15,7 +14,6 @@ footoff_october
 	- serialportエラー
 	- 端末の未検出エラー
 - 参考
-<!-- /MarkdownTOC -->
 
 
 ## 環境構築
